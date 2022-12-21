@@ -29,6 +29,7 @@ const ShowInfo = () => {
       }
     };
     getSelectedShow();
+    // eslint-disable-next-line 
   }, [id]);
 
   const relatedMovies = async () => {

@@ -19,6 +19,7 @@ export const useGenre = ({ fetchGenre }: useGenreProps) => {
     } catch (error) {
       throw error;
     }
+    // eslint-disable-next-line
   }, []);
   return { genre, type };
 };

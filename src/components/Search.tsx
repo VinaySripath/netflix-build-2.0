@@ -31,6 +31,7 @@ export const Search = () => {
       }
     }, 2000);
     return () => clearTimeout(navigateToSearch);
+    // eslint-disable-next-line
   }, [search]);
 
   return (
