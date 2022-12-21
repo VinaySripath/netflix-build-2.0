@@ -60,9 +60,9 @@ export const trendingMovies = async () => {
 };
 
 export const topRated = async () => {
-  const response = await request.get(`/discover/movie/`, {
+  const response = await request.get(`/movie/top_rated`, {
     params: {
-      sort_by: "vote_average.desc",
+      language: "en-US",
     },
   });
   return { results: response.data.results, type: "movie" };
