@@ -36,7 +36,7 @@ export const Genre = ({
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
-      items: 4,
+      items: 2,
     },
   };
 
@@ -56,7 +56,9 @@ export const Genre = ({
 
   return (
     <div className="text-white ml-5">
-      <h1 className="text-24 font-bold pt-6 pb-2 pl-4">{title}</h1>
+      <h1 className="text-20 tablet:text-24 font-bold pt-4 tablet:pt-6 pb-2 pl-2 tablet:pl-4">
+        {title}
+      </h1>
       <Carousel responsive={responsive}>
         {movies.map((movie: IGenreResponse) => {
           if (
@@ -65,7 +67,7 @@ export const Genre = ({
           ) {
             return (
               <img
-                className={`max-h-40 object-contain p-3 w-full transition-transform duration-500 hover:scale-120 ${cls(
+                className={`small:pl-2 max-h-40 object-contain p-3 w-full transition-transform duration-500 hover:scale-120 ${cls(
                   { "max-h-80 pt-6 pb-6": isGenreRowLarge }
                 )}`}
                 key={movie.id}

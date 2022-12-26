@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { discoverMovieGenre, movieById } from "../apis/fetchMovies";
-import { discoverTvGenre, seriesById } from "../apis/fetchSeries";
+import { discoverMovieGenre, movieById, topRated } from "../apis/fetchMovies";
+import {
+  discoverTvGenre,
+  seriesById,
+  topRatedSeries,
+} from "../apis/fetchSeries";
 import { MY_LIST, PLAY_BUTTON } from "../constants/bannerButtons";
 import { BASE_URL } from "../constants/baseImageUrl";
 import { IGenreResponse } from "../types/genreResponse";
 import { BsFillPlayFill } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi";
 import { Genre } from "../components/Genre";
+import { discover } from "../types/discover";
 
 const ShowInfo = () => {
   const location = useLocation();
@@ -29,39 +34,42 @@ const ShowInfo = () => {
       }
     };
     getSelectedShow();
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
   }, [id]);
 
-  const relatedMovies = async () => {
+  const related = async (
+    fetchRelated: discover,
+    fetchDefault: () => Promise<{ results: IGenreResponse[]; type: string }>,
+    typeOfRelatedShows: string
+  ) => {
     const promises = showGenres.map((item: string) => {
-      return discoverMovieGenre(item);
+      return fetchRelated(item);
     });
 
     const responses: any[] = await Promise.all(promises);
-    const results: IGenreResponse[] = responses.flatMap(
+    let results: IGenreResponse[] = responses.flatMap(
       (response) => response.results
     );
 
-    return { results, type: "movie" };
+    if (results.length === 0) {
+      const defaultResponse = await fetchDefault();
+      results = defaultResponse.results;
+    }
+
+    return { results, type: `${typeOfRelatedShows}` };
   };
 
+  const relatedMovies = async () => {
+    return await related(discoverMovieGenre, topRated, "movie");
+  };
   const relatedSeries = async () => {
-    const promises = showGenres.map((item: string) => {
-      return discoverTvGenre(item);
-    });
-
-    const responses: any[] = await Promise.all(promises);
-    const results: IGenreResponse[] = responses.flatMap(
-      (response) => response.results
-    );
-
-    return { results, type: "series" };
+    return await related(discoverTvGenre, topRatedSeries, "series");
   };
 
   return (
     <div>
       <div
-        className=" bg-no-repeat bg-secondary bg-top-right"
+        className=" bg-no-repeat bg-poster-small laptop:bg-secondary bg-top-right min-h-screen flex flex-col justify-around"
         style={{
           backgroundImage: `linear-gradient(
           90deg,
@@ -72,27 +80,27 @@ const ShowInfo = () => {
           }")`,
         }}
       >
-        <div className="pl-12 pt-44">
-          <h1 className="text-48 text-white font-extrabold mb-4">
+        <div className="pl-8 tablet:pl-12 pt-44">
+          <h1 className="text-24 laptop:text-48 text-white font-extrabold mb-2 laptop:mb-4">
             {selectedShowData?.name ||
               selectedShowData?.title ||
               selectedShowData?.original_name}
           </h1>
           <div className="flex">
-            <button className=" flex justify-center items-center cursor-pointer text-white border-none outline-none rounded font-bold w-32 px-8 py-1.5 mr-4 bg-grey-dark/50 hover:text-black hover:bg-grey-light hover:transition-all hover:duration-200">
-              <BsFillPlayFill className="my-1 mr-2" size={20} />
+            <button className=" flex justify-center items-center cursor-pointer text-white border-none outline-none rounded font-bold w-24 tablet:w-32 px-2 tablet:px-8 py-1.5 mr-4 bg-red-500/80 tablet:bg-grey-dark/50 laptop:hover:text-black laptop:hover:bg-grey-light laptop:hover:transition-all laptop:hover:duration-200">
+              <BsFillPlayFill className="laptop:my-1 mr-2" size={20} />
               {PLAY_BUTTON}
             </button>
-            <button className="cursor-pointer flex justify-center items-center text-white border-none outline-none rounded font-bold w-36 p-4 py-1.5 mr-4 bg-grey-dark/50 hover:text-black hover:bg-grey-light hover:transition-all hover:duration-200">
+            <button className="cursor-pointer flex justify-center items-center text-white border-none outline-none rounded font-bold w-32 tablet:w-36 px-2 tablet:px-4 py-1.5 mr-4 bg-grey-dark/50 laptop:hover:text-black laptop:hover:bg-grey-light laptop:hover:transition-all laptop:hover:duration-200">
               <HiPlus className="my-1 mr-2" style={{ strokeWidth: 2 }} />
               {MY_LIST}
             </button>
           </div>
-          <h1 className="text-base text-white pt-4 max-w-md h-22">
+          <h1 className="text-12 tablet:text-16 text-white pt-4 max-w-md h-22">
             {selectedShowData?.overview}
           </h1>
         </div>
-        <div className="mt-10 ml-4 bg-gradient-primary ">
+        <div className="mt-10 laptop:ml-4 bg-gradient-primary bg-top">
           <Genre
             title="Related"
             fetchGenre={type === "movie" ? relatedMovies : relatedSeries}

@@ -6,12 +6,20 @@ import {
   horrorMovies,
   romanceMovies,
   topRated,
+  trendingMovies,
 } from "../apis/fetchMovies";
+import Banner from "../components/Banner";
 import { Genre } from "../components/Genre";
+import { MORE_INFO_BUTTON, PLAY_BUTTON } from "../constants/bannerButtons";
 
 const Movies = () => {
   return (
-    <div className="pt-28">
+    <div>
+      <Banner
+        fetchGenre={trendingMovies}
+        playButton={PLAY_BUTTON}
+        moreInfoButton={MORE_INFO_BUTTON}
+      />
       <Genre title="Top-Rated" fetchGenre={topRated} />
       <Genre title="Action" fetchGenre={actionMovies} />
       <Genre title="Comedy" fetchGenre={comedyMovies} />

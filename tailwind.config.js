@@ -5,13 +5,18 @@ module.exports = {
     screens: {
       mobile: "400px",
       tablet: "600px",
-      laptop: "800px",
-      desktop: "1080px",
+      laptop: "900px",
+      desktop: "1180px",
+      small: { max: "450px" },
+      medium: { min: "451px" },
     },
     fontSize: {
       48: "48px",
       24: "24px",
+      20: "20px",
       16: "16px",
+      14: "14px",
+      12: "12px",
     },
     extend: {
       width: {
@@ -20,6 +25,7 @@ module.exports = {
       height: {
         34: "34px",
         128: "512px",
+        118: "320px",
       },
       maxWidth: {
         160: "160px",
@@ -45,6 +51,8 @@ module.exports = {
       backgroundSize: {
         secondary: "30% 100%, 70% 80%",
         primary: "40% 100%, 75% 100%",
+        small: "0% 0%, 100% 100%",
+        "poster-small": "0% 0%, 100% 70%",
       },
       backgroundPosition: {
         "top-right": "42.5%, right top",

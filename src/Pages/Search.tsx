@@ -16,8 +16,14 @@ function Search() {
   useEffect(() => {
     const fetchSearchData = async () => {
       const searchMovieData = await searchMovieResult(searchKey);
-      const searchSeriesData = await searchSeriesResult(searchKey);
       setSearchedMovies(searchMovieData.results);
+    };
+    fetchSearchData();
+  }, [searchKey]);
+
+  useEffect(() => {
+    const fetchSearchData = async () => {
+      const searchSeriesData = await searchSeriesResult(searchKey);
       setSearchedSeries(searchSeriesData.results);
     };
     fetchSearchData();
@@ -35,10 +41,10 @@ function Search() {
 
   return (
     <div className="w-full h-screen bg-black">
-      <div className="w-full pt-32 p-8 grid desktop:grid-cols-8 laptop:grid-cols-6 tablet:grid-cols-4 mobile:grid-cols-2 gap-4 bg-black ">
+      <div className="w-full pt-32 p-8 grid grid-cols-2 desktop:grid-cols-8 laptop:grid-cols-6 tablet:grid-cols-4 gap-4 bg-black ">
         {searchedMovies?.map((movie) => {
-          if (movie.poster_path) {
-            return (
+          return (
+            movie.poster_path && (
               <img
                 key={movie.id}
                 src={`${BASE_URL}${movie.poster_path}`}
@@ -48,14 +54,12 @@ function Search() {
                   showInfoHandler(movie.id, movie.genre_ids, typeMovie)
                 }
               />
-            );
-          } else {
-            return null;
-          }
+            )
+          );
         })}
         {searchedSeries?.map((series) => {
-          if (series.poster_path) {
-            return (
+          return (
+            series.poster_path && (
               <img
                 key={series.id}
                 src={`${BASE_URL}${series.poster_path}`}
@@ -65,10 +69,8 @@ function Search() {
                   showInfoHandler(series.id, series.genre_ids, typeSeries)
                 }
               />
-            );
-          } else {
-            return null;
-          }
+            )
+          );
         })}
       </div>
     </div>

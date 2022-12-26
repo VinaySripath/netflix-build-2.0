@@ -1,5 +1,4 @@
 import { instance as request } from "./index";
-import { IGenreResponse } from "../types/genreResponse";
 import {
   ACTION_GENRE_ID,
   COMEDY_GENRE_ID,
@@ -7,10 +6,7 @@ import {
   HORROR_GENRE_ID,
   ROMANCE_GENRE_ID,
 } from "../constants/genreId";
-
-type discover = (
-  genreId?: string
-) => Promise<{ results: IGenreResponse[]; type: string }>;
+import { discover } from "../types/discover";
 
 export const discoverMovieGenre: discover = async (genreId?: string) => {
   const response = await request.get(`/discover/movie`, {
@@ -51,7 +47,7 @@ export const netflixOriginals = async () => {
 };
 
 export const trendingMovies = async () => {
-  const response = await request.get(`/trending/all/week`, {
+  const response = await request.get(`/trending/movie/week`, {
     params: {
       language: "en-US",
     },
@@ -60,11 +56,7 @@ export const trendingMovies = async () => {
 };
 
 export const topRated = async () => {
-  const response = await request.get(`/movie/top_rated`, {
-    params: {
-      language: "en-US",
-    },
-  });
+  const response = await request.get(`/movie/top_rated`);
   return { results: response.data.results, type: "movie" };
 };
 
