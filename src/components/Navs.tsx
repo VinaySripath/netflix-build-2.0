@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../Images/netflix-logo.png";
+import netflixIcon from "../Images/netflix-logo.webp";
 import avatar from "../Images/Netflix-avatar.png";
 import cls from "classnames";
 import { Search } from "./Search";
@@ -33,23 +34,28 @@ const Navs = () => {
         <div className="fixed left-0 p-5 flex justify-between">
           <Link to="/" className="flex items-center no-underline">
             <img
-              className="left-0 w-32 cursor-pointer"
+              className="left-0 w-32 cursor-pointer small:hidden"
               src={logo}
+              alt="Netflix logo"
+            />
+            <img
+              className="left-0 w-7 cursor-pointer medium:hidden"
+              src={netflixIcon}
               alt="Netflix logo"
             />
           </Link>
           <Link to="/movies" className="flex items-center no-underline">
-            <button className="text-white text-16 cursor-pointer m-2.5 border-none uppercase font-bold">
+            <button className="text-white laptop:text-16 text-12 cursor-pointer m-2.5 border-none uppercase font-bold">
               movies
             </button>
           </Link>
           <Link to="/series" className="flex items-center no-underline">
-            <button className="text-white text-16 cursor-pointer m-2.5 border-none uppercase font-bold">
+            <button className="text-white laptop:text-16 text-12 cursor-pointer m-2.5 border-none uppercase font-bold">
               series
             </button>
           </Link>
         </div>
-        <div className="flex justify-between fixed w-64 right-5">
+        <div className="flex justify-between fixed w-40 laptop:w-64 right-5">
           <Search />
           <img className="w-8 h-8 cursor-pointer" src={avatar} alt="avatar" />
         </div>

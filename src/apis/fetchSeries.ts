@@ -1,4 +1,3 @@
-import { IGenreResponse } from "../types/genreResponse";
 import { instance as request } from "./index";
 import {
   ACTION_GENRE_ID,
@@ -7,10 +6,7 @@ import {
   HORROR_GENRE_ID,
   ROMANCE_GENRE_ID,
 } from "../constants/genreId";
-
-type discover = (
-  genreId?: string
-) => Promise<{ results: IGenreResponse[]; type: string }>;
+import { discover } from "../types/discover";
 
 export const discoverTvGenre: discover = async (genreId?: string) => {
   const response = await request.get("/discover/tv", {
