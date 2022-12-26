@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, createSearchParams } from "react-router-dom";
 import { HiSearch } from "react-icons/hi";
 import cls from "classnames";
 
@@ -22,7 +22,12 @@ export const Search = () => {
   useEffect(() => {
     const navigateToSearch = setTimeout(() => {
       if (search.trim() !== "") {
-        navigate("/search", { state: search });
+        navigate({
+          pathname: "search",
+          search: createSearchParams({
+            key: search,
+          }).toString(),
+        });
       } else if (location.pathname === "/search") {
         navigate("/");
         setShowSearchInput(true);

@@ -67,13 +67,17 @@ export const Genre = ({
           ) {
             return (
               <img
-                className={`small:pl-2 max-h-40 object-contain p-3 w-full transition-transform duration-500 hover:scale-120 ${cls(
-                  { "max-h-80 pt-6 pb-6": isGenreRowLarge }
-                )}`}
+                className={`${cls(
+                  "transition-transform duration-500 hover:scale-120 hover:cursor-pointer",
+                  {
+                    "small:pl-2 max-h-44 w-56 object-fill p-3":
+                      !isGenreRowLarge,
+                  }
+                )} ${cls({
+                  "max-h-80 h-72 pt-6 pb-6 px-3": isGenreRowLarge,
+                })}`}
                 key={movie.id}
-                src={`${BASE_URL}${
-                  isGenreRowLarge ? movie.poster_path : movie.backdrop_path
-                }`}
+                src={`${BASE_URL}${movie.poster_path}`}
                 alt={movie.name}
                 onClick={() => showInfoHandler(movie.id, movie.genre_ids, type)}
               />
