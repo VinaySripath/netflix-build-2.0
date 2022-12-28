@@ -8,7 +8,6 @@ import { useSearchParams } from "react-router-dom";
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const searchKey = searchParams.get("key");
-
   const [searchedMovies, setSearchedMovies] = useState<IGenreResponse[]>();
   const [searchedSeries, setSearchedSeries] = useState<IGenreResponse[]>();
   const typeMovie = "movie";
