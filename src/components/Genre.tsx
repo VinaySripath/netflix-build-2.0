@@ -1,10 +1,12 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import cls from "classnames";
 import { IGenreResponse } from "../types/genreResponse";
 import { useGenre } from "../hooks/useGenre";
 import { BASE_URL } from "../constants/baseImageUrl";
 import { useNavigate } from "react-router";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import LazyImage from "./LazyImage";
 
 type GenreProps = {
   title: string;
@@ -54,38 +56,40 @@ export const Genre = ({
   const movies = returnedData.genre;
   const type = returnedData.type;
 
+  const skeleton = [0, 1, 2, 3, 4, 5, 6, 7];
   return (
     <div className="text-white ml-5">
       <h1 className="text-20 tablet:text-24 font-bold pt-4 tablet:pt-6 pb-2 pl-2 tablet:pl-4">
         {title}
       </h1>
       <Carousel responsive={responsive}>
-        {movies.map((movie: IGenreResponse) => {
-          if (
-            (isGenreRowLarge && movie.poster_path) ||
-            (!isGenreRowLarge && movie.backdrop_path)
-          ) {
-            return (
-              <img
-                className={`${cls(
-                  "transition-transform duration-500 hover:scale-120 hover:cursor-pointer",
-                  {
-                    "small:pl-2 max-h-44 w-56 object-fill p-3":
-                      !isGenreRowLarge,
-                  }
-                )} ${cls({
-                  "max-h-80 h-72 pt-6 pb-6 px-3": isGenreRowLarge,
-                })}`}
-                key={movie.id}
-                src={`${BASE_URL}${movie.poster_path}`}
-                alt={movie.name}
-                onClick={() => showInfoHandler(movie.id, movie.genre_ids, type)}
-              />
-            );
-          } else {
-            return null;
-          }
-        })}
+        {movies.length !== 0
+          ? movies.map((movie: IGenreResponse) => {
+              return (
+                Boolean(movie.poster_path) && (
+                  <LazyImage
+                    styleClass="transition-transform duration-500 hover:scale-120 hover:cursor-pointer max-h-80 h-72 pt-6 pb-6 px-3"
+                    src={`${BASE_URL}${movie.poster_path}`}
+                    alt={movie.name}
+                    key={movie.id}
+                    id={movie.id}
+                    genre_ids={movie.genre_ids}
+                    type={type}
+                    showInfoHandler={showInfoHandler}
+                  />
+                )
+              );
+            })
+          : skeleton.map(() => {
+              return (
+                <Skeleton
+                  key={0}
+                  baseColor="#202020"
+                  highlightColor="#444"
+                  className={"h-72 w-42 pt-6 pb-6 px-3"}
+                ></Skeleton>
+              );
+            })}
       </Carousel>
     </div>
   );

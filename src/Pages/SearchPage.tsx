@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { searchMovieResult, searchSeriesResult } from "../apis/searchShows";
 import { BASE_URL } from "../constants/baseImageUrl";
 import { IGenreResponse } from "../types/genreResponse";
+import { useSearchParams } from "react-router-dom";
 
 const SearchPage = () => {
-  const location = useLocation();
-  const searchKey = location.search.substring(5, location.search.length);
+  const [searchParams] = useSearchParams();
+  const searchKey = searchParams.get("key");
   const [searchedMovies, setSearchedMovies] = useState<IGenreResponse[]>();
   const [searchedSeries, setSearchedSeries] = useState<IGenreResponse[]>();
   const typeMovie = "movie";

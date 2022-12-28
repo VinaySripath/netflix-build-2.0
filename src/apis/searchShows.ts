@@ -1,6 +1,6 @@
 import { instance as request } from "./index";
 
-export const searchMovieResult = async (searchKey: string) => {
+export const searchMovieResult = async (searchKey: string | null) => {
   const response = await request.get(`/search/movie`, {
     params: {
       query: searchKey,
@@ -9,7 +9,7 @@ export const searchMovieResult = async (searchKey: string) => {
   return { results: response.data.results, type: "movies" };
 };
 
-export const searchSeriesResult = async (searchKey: string) => {
+export const searchSeriesResult = async (searchKey: string | null) => {
   const response = await request.get(`/search/tv`, {
     params: {
       query: searchKey,
